@@ -1,21 +1,19 @@
 # ApiBenchmark
 
-**TODO: Add description**
+This project aim is to compare the following APIs:
+
+- REST over HTTP(s)/1.1
+- REST over HTTP(s)/2 and server push
+- REST over WebSocket
+- GraphQL and GraphQL subscriptions
+- GRPc/protobuf
+
+based on these criteria:
+
+- echo latency
+- echo throughput
+- data packing efficiency (bytes of data/transmitted bytes).
+
+## Benchmark
 
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `api_benchmark` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:api_benchmark, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/api_benchmark>.
-
