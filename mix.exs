@@ -15,7 +15,7 @@ defmodule ApiBenchmark.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {ApiBenchmark.Application, []}
+      mod: {ApiBenchmark, []}
     ]
   end
 

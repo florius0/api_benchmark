@@ -7,6 +7,8 @@ This project aim is to compare the following APIs:
 - REST over WebSocket
 - GraphQL and GraphQL subscriptions
 - GRPc/protobuf
+- PlainText over TCP
+- PlainText over UDP
 
 based on these criteria:
 

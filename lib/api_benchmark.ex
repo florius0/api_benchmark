@@ -1,18 +1,20 @@
 defmodule ApiBenchmark do
-  @moduledoc """
-  Documentation for `ApiBenchmark`.
-  """
+  @moduledoc false
 
-  @doc """
-  Hello world.
+  use Application
+  require Logger
 
-  ## Examples
+  @impl true
+  def start(_type, _args) do
+    children = [
+      {Task.Supervisor, name: ApiBenchmark.Tcp.Supervisor},
+      ApiBenchmark.Tcp,
+      ApiBenchmark.Udp,
+    ]
 
-      iex> ApiBenchmark.hello()
-      :world
+    Logger.info("Application started")
 
-  """
-  def hello do
-    :world
+    opts = [strategy: :one_for_one, name: ApiBenchmark.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end
