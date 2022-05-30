@@ -10,6 +10,7 @@ defmodule ApiBenchmark do
       {Task.Supervisor, name: ApiBenchmark.Tcp.Supervisor},
       ApiBenchmark.Tcp,
       ApiBenchmark.Udp,
+      ApiBenchmark.Grpc,
     ]
 
     Logger.info("Application started")

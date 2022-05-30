@@ -5,3 +5,5 @@ config :api_benchmark, :tcp,
 
 config :api_benchmark, :udp,
   port: 4001
+
+config :grpc, start_server: true
