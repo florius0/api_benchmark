@@ -17,13 +17,13 @@ defmodule ApiBenchmark.Tcp do
     opts = Keyword.get(opts, :gen_tcp_opts, @default_opts)
 
     {:ok, socket} = :gen_tcp.listen(port, opts)
-
     Logger.info("Accepting tcp connections on #{port}")
 
     loop_acceptor(socket)
   end
 
   defp loop_acceptor(socket) do
+    Logger.debug(":gen_tcp.accept on #{inspect socket}")
     {:ok, client} = :gen_tcp.accept(socket)
     {:ok, pid} = Task.Supervisor.start_child(ApiBenchmark.Tcp.Supervisor, fn -> serve(client) end)
     :ok = :gen_tcp.controlling_process(client, pid)
@@ -39,11 +39,13 @@ defmodule ApiBenchmark.Tcp do
   end
 
   defp read_line(socket) do
+    Logger.debug(":gen_tcp.recv on #{inspect socket}")
     {:ok, data} = :gen_tcp.recv(socket, 0)
     data
   end
 
   defp write_line(line, socket) do
+    Logger.debug(":gen_tcp.send on #{inspect socket}")
     :gen_tcp.send(socket, line)
   end
 end

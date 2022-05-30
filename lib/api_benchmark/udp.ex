@@ -17,7 +17,6 @@ defmodule ApiBenchmark.Udp do
     opts = Keyword.get(opts, :gen_udp_opts, @default_opts)
 
     {:ok, socket} = :gen_udp.open(port, opts)
-
     Logger.info("Accepting udp connection on #{port}")
 
     serve(socket)
@@ -32,11 +31,13 @@ defmodule ApiBenchmark.Udp do
   end
 
   defp read(socket) do
+    Logger.debug(":gen_udp.recv on #{inspect socket}")
     {:ok, data} = :gen_udp.recv(socket, 0)
-    data
+    data |> IO.inspect()
   end
 
   defp write({addr, port, msg}, socket) do
+    Logger.debug(":gen_udp.send to #{inspect socket}")
     :gen_udp.send(socket, addr, port, msg)
   end
 end
