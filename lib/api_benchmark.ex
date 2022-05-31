@@ -11,6 +11,7 @@ defmodule ApiBenchmark do
       ApiBenchmark.Tcp,
       ApiBenchmark.Udp,
       ApiBenchmark.Grpc,
+      ApiBenchmark.GraphQL
     ]
 
     Logger.info("Application started")

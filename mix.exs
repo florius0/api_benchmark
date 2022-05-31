@@ -21,8 +21,12 @@ defmodule ApiBenchmark.MixProject do
   defp deps do
     [
       {:grpc, github: "elixir-grpc/grpc"},
-      {:protobuf, "~> 0.10.0"},
-      {:cowlib, "~> 2.11.0", override: true}
+      {:protobuf, "~> 0.10"},
+      {:cowlib, "~> 2.11", override: true},
+      {:absinthe, "~> 1.7"},
+      {:absinthe_plug, "~> 1.5"},
+      {:plug_cowboy, "~> 2.5"},
+      {:jason, "~> 1.3"}
     ]
   end
 end
