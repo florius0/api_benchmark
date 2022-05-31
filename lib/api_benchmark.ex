@@ -14,6 +14,7 @@ defmodule ApiBenchmark do
       ApiBenchmark.Grpc,
       ApiBenchmark.GraphQL,
       {Absinthe.Subscription, ApiBenchmark.GraphQL},
+      ApiBenchmark.RestOverHttp
     ]
 
     Logger.info("Application started")

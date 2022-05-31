@@ -4,7 +4,7 @@ defmodule ApiBenchmark.Grpc do
   intercept GRPC.Logger.Server
   run __MODULE__.Server
 
-  def child_spec(opts \\ Application.fetch_env!(:api_benchmark, :grpc)) do
+  def child_spec(opts \\ Application.fetch_env!(:api_benchmark, __MODULE__)) do
     port = Keyword.get(opts, :port, 4002)
 
     Supervisor.child_spec(

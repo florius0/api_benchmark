@@ -4,7 +4,7 @@ defmodule ApiBenchmark.Tcp do
   @default_port 4000
   @default_opts [:binary, packet: :line, active: false, reuseaddr: true]
 
-  def child_spec(opts \\ Application.fetch_env!(:api_benchmark, :tcp)) do
+  def child_spec(opts \\ Application.fetch_env!(:api_benchmark, __MODULE__)) do
     Supervisor.child_spec(
       {Task, fn -> accept(opts) end},
       id: __MODULE__,

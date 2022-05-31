@@ -4,7 +4,7 @@ defmodule ApiBenchmark.Udp do
   @default_port 4001
   @default_opts [:binary, active: false]
 
-  def child_spec(opts \\ Application.fetch_env!(:api_benchmark, :udp)) do
+  def child_spec(opts \\ Application.fetch_env!(:api_benchmark, __MODULE__)) do
     Supervisor.child_spec(
       {Task, fn -> accept(opts) end},
       id: __MODULE__,
