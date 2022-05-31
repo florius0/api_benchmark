@@ -1,4 +1,4 @@
-defmodule  ApiBenchmark.GraphQL.ContentTypes do
+defmodule ApiBenchmark.GraphQL.ContentTypes do
   use Absinthe.Schema.Notation
 
   object :echo do
@@ -6,7 +6,7 @@ defmodule  ApiBenchmark.GraphQL.ContentTypes do
   end
 end
 
-defmodule  ApiBenchmark.GraphQL.Schema do
+defmodule ApiBenchmark.GraphQL.Schema do
   use Absinthe.Schema
   import_types ApiBenchmark.GraphQL.ContentTypes
 
@@ -16,21 +16,30 @@ defmodule  ApiBenchmark.GraphQL.Schema do
       resolve fn args, _ -> {:ok, args} end
     end
   end
+
+  mutation do
+    field :echo, :echo do
+      arg :msg, :string
+      resolve fn args, _ -> {:ok, args} end
+    end
+  end
+
+  subscription do
+    field :echo, :echo do
+      config fn _, _ -> {:ok, topic: "echo"} end
+      trigger :echo, topic: fn _ -> "echo" end
+    end
+  end
 end
 
 defmodule ApiBenchmark.GraphQL do
-  use Plug.Router
+  use Phoenix.Endpoint, otp_app: :api_benchmark
+  use Absinthe.Phoenix.Endpoint
 
-  def child_spec(opts \\ Application.fetch_env!(:api_benchmark, :graphql)) do
-    port = Keyword.get(opts, :port, 4003)
-
-    Supervisor.child_spec(
-      {Plug.Cowboy, scheme: :http, plug: __MODULE__, options: [port: port]},
-      id: __MODULE__
-    )
-  end
-
-  plug :match
+  socket("/socket", __MODULE__.Socket,
+    websocket: true,
+    longpoll: false
+  )
 
   plug Plug.RequestId
   plug Plug.Logger
@@ -40,16 +49,21 @@ defmodule ApiBenchmark.GraphQL do
     pass: ["*/*"],
     json_decoder: Jason
 
-  plug :dispatch
+  plug Absinthe.Plug.GraphiQL,
+    schema: __MODULE__.Schema,
+    socket: __MODULE__.Socket,
+    interface: :playground
+end
 
-  forward "/graphiql",
-    to: Absinthe.Plug.GraphiQL,
-    init_opts: [
-      schema: __MODULE__.Schema,
-      interface: :playground
-    ]
+defmodule ApiBenchmark.GraphQL.Socket do
+  use Phoenix.Socket
 
-  forward "/api",
-    to: Absinthe.Plug,
-    init_opts: [schema: __MODULE__.Schema]
+  use Absinthe.Phoenix.Socket,
+    schema: ApiBenchmark.GraphQL.Schema
+
+  def connect(_params, socket) do
+    {:ok, socket}
+  end
+
+  def id(_socket), do: nil
 end

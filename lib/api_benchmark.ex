@@ -8,10 +8,12 @@ defmodule ApiBenchmark do
   def start(_type, _args) do
     children = [
       {Task.Supervisor, name: ApiBenchmark.Tcp.Supervisor},
+      {Phoenix.PubSub, [name: ApiBenchmark.PubSub, adapter: Phoenix.PubSub.PG2]},
       ApiBenchmark.Tcp,
       ApiBenchmark.Udp,
       ApiBenchmark.Grpc,
-      ApiBenchmark.GraphQL
+      ApiBenchmark.GraphQL,
+      {Absinthe.Subscription, ApiBenchmark.GraphQL},
     ]
 
     Logger.info("Application started")
